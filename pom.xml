@@ -21,6 +21,7 @@
     <properties>
         <java.version>21</java.version>
         <kotlin.version>1.9.22</kotlin.version>
+        <zero-allocation-hashing.version>0.16</zero-allocation-hashing.version>
     </properties>
 
     <dependencies>
@@ -50,6 +51,13 @@
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
         </dependency>
+
+        <dependency>
+            <groupId>net.openhft</groupId>
+            <artifactId>zero-allocation-hashing</artifactId>
+            <version>${zero-allocation-hashing.version}</version>
+        </dependency>
+
     </dependencies>
 
     <build>
