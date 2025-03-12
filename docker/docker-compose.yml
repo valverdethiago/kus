@@ -1,0 +1,23 @@
+version: '3.9'
+
+services:
+  cassandra:
+    image: cassandra:4.1
+    container_name: cassandra-db
+    ports:
+      - "9042:9042"
+    environment:
+      - CASSANDRA_CLUSTER_NAME=TestCluster
+      - CASSANDRA_DC=datacenter1
+      - CASSANDRA_RACK=rack1
+    volumes:
+      - ./cassandra-init.cql:/docker-entrypoint-initdb.d/init.cql
+      - cassandra_data:/var/lib/cassandra
+    healthcheck:
+      test: ["CMD", "cqlsh", "-e", "DESCRIBE KEYSPACES"]
+      interval: 10s
+      retries: 5
+      start_period: 20s
+
+volumes:
+  cassandra_data:

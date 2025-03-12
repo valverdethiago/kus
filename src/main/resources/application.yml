@@ -3,3 +3,9 @@ server:
 spring:
   application:
     name: kus
+  cassandra:
+    keyspace-name: url_shortener
+    contact-points: localhost
+    port: 9042
+    local-datacenter: datacenter1
+    schema-action: create-if-not-exists
