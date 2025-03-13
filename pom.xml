@@ -9,7 +9,7 @@
     <packaging>jar</packaging>
 
     <name>Kus</name>
-    <description>Kotlin URL Shortener</description>
+    <description>Kotlin URL Shorten</description>
 
     <parent>
         <groupId>org.springframework.boot</groupId>
