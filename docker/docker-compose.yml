@@ -1,23 +1,23 @@
 version: '3.9'
 
 services:
-  cassandra:
+  cassandra-db:
     image: cassandra:4.1
     container_name: cassandra-db
     ports:
       - "9042:9042"
     environment:
       - CASSANDRA_CLUSTER_NAME=TestCluster
-      - CASSANDRA_DC=datacenter1
-      - CASSANDRA_RACK=rack1
-    volumes:
-      - ./cassandra-init.cql:/docker-entrypoint-initdb.d/init.cql
-      - cassandra_data:/var/lib/cassandra
+      - CASSANDRA_SEEDS=127.0.0.1  # ✅ Ensures it connects to itself
+      - CASSANDRA_LISTEN_ADDRESS=127.0.0.1  # ✅ Must match the host machine
+      - CASSANDRA_BROADCAST_ADDRESS=127.0.0.1  # ✅ Prevents wrong IP resolution
+      - CASSANDRA_BROADCAST_RPC_ADDRESS=127.0.0.1  # ✅ Ensures proper RPC communication
+      - CASSANDRA_RPC_ADDRESS=0.0.0.0  # ✅ Allows external connections
+      - CASSANDRA_START_RPC=true
     healthcheck:
-      test: ["CMD", "cqlsh", "-e", "DESCRIBE KEYSPACES"]
-      interval: 10s
+      test: ["CMD", "cqlsh", "-e", "SELECT now() FROM system.local;"]
+      interval: 30s
+      timeout: 10s
       retries: 5
-      start_period: 20s
-
-volumes:
-  cassandra_data:
+    volumes:
+      - ./data/cassandra:/var/lib/cassandra
