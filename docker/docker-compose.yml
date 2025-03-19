@@ -25,3 +25,17 @@ services:
       - ./data/cassandra:/var/lib/cassandra
       - ./cassandra-init.cql:/cassandra-init.cql
       - ./init-script.sh:/docker-entrypoint-initdb.d/init-script.sh
+
+  redis-cache:
+    image: redis:7.2-alpine
+    container_name: redis-cache
+    ports:
+      - "6379:6379"
+    command: redis-server --save 20 1 --loglevel warning
+    volumes:
+      - ./data/redis:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 3

@@ -37,6 +37,12 @@
             <artifactId>spring-boot-starter-data-cassandra</artifactId>
         </dependency>
 
+        <!-- Spring Boot Starter for Redis -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-redis</artifactId>
+        </dependency>
+
         <!-- Kotlin Standard Library -->
         <dependency>
             <groupId>org.jetbrains.kotlin</groupId>
