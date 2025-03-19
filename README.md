@@ -147,7 +147,45 @@ The project uses Testcontainers for integration testing, ensuring that tests run
 
 ## 📝 API Documentation
 
-[API documentation will be added here]
+The API is documented using OpenAPI 3.0.3 specification. The complete API documentation can be found in `docs/api.yaml`.
+
+### Setting Up API Documentation
+
+1. The project uses springdoc-openapi for generating and serving API documentation. This is already configured in:
+   - `pom.xml` - Contains the required dependencies
+   - `application.yml` - Contains the Swagger UI and OpenAPI configuration
+
+2. After starting the application, the documentation will be available at:
+   - Swagger UI: `http://localhost:8080/swagger-ui.html`
+   - OpenAPI Specification: `http://localhost:8080/v3/api-docs`
+
+### Available Endpoints
+
+#### URL Management
+- `POST /` - Create a shortened URL (accepts `url` as a query parameter)
+- `GET /go/{hash}` - Redirect to original URL
+
+### Example Usage
+
+#### Creating a Short URL
+```bash
+curl -X POST 'http://localhost:8080/?url=https://www.example.com/very/long/url'
+```
+
+Example Response:
+```json
+{
+    "hash": "a1b2c3",
+    "originalUrl": "https://www.example.com/very/long/url",
+    "shortUrl": "/go/a1b2c3"
+}
+```
+
+#### Accessing a Shortened URL
+```bash
+curl -L http://localhost:8080/go/a1b2c3
+```
+This will redirect to the original URL.
 
 ## 🤝 Contributing
 

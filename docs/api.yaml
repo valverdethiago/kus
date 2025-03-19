@@ -1,0 +1,125 @@
+openapi: 3.0.3
+info:
+  title: KUS - Kotlin URL Shortener API
+  description: |
+    API documentation for the Kotlin URL Shortener service.
+    This service provides endpoints for creating and managing shortened URLs.
+  version: 1.0.0
+  contact:
+    name: Your Name
+    url: https://github.com/yourusername/kus
+
+servers:
+  - url: http://localhost:8080
+    description: Local development server
+
+tags:
+  - name: URL Management
+    description: Endpoints for creating and managing shortened URLs
+
+paths:
+  /:
+    post:
+      tags:
+        - URL Management
+      summary: Create a shortened URL
+      description: |
+        Creates a new shortened URL from a long URL.
+        
+        Example:
+        ```bash
+        # Create a shortened URL
+        curl -X POST 'http://localhost:8080/?url=https://www.example.com/very/long/url'
+        
+        # Example Response:
+        {
+            "hash": "a1b2c3",
+            "originalUrl": "https://www.example.com/very/long/url",
+            "shortUrl": "/go/a1b2c3"
+        }
+        ```
+      operationId: createShortUrl
+      parameters:
+        - name: url
+          in: query
+          required: true
+          schema:
+            type: string
+            format: uri
+          description: The long URL to be shortened
+          example: "https://www.example.com/very/long/url"
+      responses:
+        '200':
+          description: URL successfully shortened
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UrlResponse'
+        '400':
+          description: Invalid URL provided
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /go/{hash}:
+    get:
+      tags:
+        - URL Management
+      summary: Redirect to original URL
+      description: |
+        Redirects to the original URL using the hash.
+        
+        Example:
+        ```bash
+        # Access shortened URL (will redirect to original URL)
+        curl -L http://localhost:8080/go/a1b2c3
+        
+        # Without following redirects (to see the redirect response)
+        curl -i http://localhost:8080/go/a1b2c3
+        ```
+      operationId: redirectToUrl
+      parameters:
+        - name: hash
+          in: path
+          required: true
+          schema:
+            type: string
+          description: The hash of the shortened URL
+      responses:
+        '302':
+          description: Redirect to original URL
+          headers:
+            Location:
+              schema:
+                type: string
+              description: The original URL to redirect to
+        '404':
+          description: URL not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+components:
+  schemas:
+    UrlResponse:
+      type: object
+      properties:
+        hash:
+          type: string
+          example: "a1b2c3"
+        originalUrl:
+          type: string
+          format: uri
+          example: "https://www.example.com/very/long/url"
+        shortUrl:
+          type: string
+          example: "/go/a1b2c3"
+
+    ErrorResponse:
+      type: object
+      properties:
+        error:
+          type: string
+          example: "Invalid URL provided" 
