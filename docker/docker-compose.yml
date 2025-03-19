@@ -2,7 +2,9 @@ version: '3.9'
 
 services:
   cassandra-db:
-    image: cassandra:4.1
+    build:
+      context: .
+      dockerfile: Dockerfile
     container_name: cassandra-db
     ports:
       - "9042:9042"
@@ -21,3 +23,5 @@ services:
       retries: 5
     volumes:
       - ./data/cassandra:/var/lib/cassandra
+      - ./cassandra-init.cql:/cassandra-init.cql
+      - ./init-script.sh:/docker-entrypoint-initdb.d/init-script.sh
