@@ -10,10 +10,10 @@ import java.time.Duration
 
 @Configuration
 @EnableCaching
-class RedisConfig {
+open class RedisConfig {
 
     @Bean
-    fun cacheManager(connectionFactory: RedisConnectionFactory): RedisCacheManager {
+    open fun cacheManager(connectionFactory: RedisConnectionFactory): RedisCacheManager {
         val config = RedisCacheConfiguration.defaultCacheConfig()
             .entryTtl(Duration.ofHours(24)) // Cache entries expire after 24 hours
             .disableCachingNullValues()
