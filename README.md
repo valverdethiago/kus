@@ -137,6 +137,23 @@ The application can be configured through the following files:
 - `docker-compose.yml` for container configuration
 - `cassandra-init.cql` for database initialization
 
+### Hash Algorithm Configuration
+
+The URL shortening service supports multiple hash algorithms that can be configured through the `application.yml` file:
+
+```yaml
+kus:
+  hash:
+    algorithm: XXHASH  # Available options: XXHASH, MURMUR3, FNV1A
+```
+
+Available hash algorithms:
+- `XXHASH`: Extremely fast non-cryptographic hash algorithm (default)
+- `MURMUR3`: High-performance non-cryptographic hash algorithm
+- `FNV1A`: Fowler-Noll-Vo hash algorithm (coming soon)
+
+Note: Changing the hash algorithm will affect the generated URLs, so it's recommended to stick to one algorithm once URLs have been generated.
+
 ## 🧪 Running Tests
 
 ```bash
