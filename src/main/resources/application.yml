@@ -15,3 +15,7 @@ spring:
       port: 6379
       timeout: 2000
       database: 0
+
+kus:
+  hash:
+    algorithm: XXHASH  # Available options: XXHASH, MURMUR3, FNV1A
